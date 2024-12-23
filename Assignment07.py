@@ -1,10 +1,11 @@
 # ------------------------------------------------------------------------------------------ #
 # Title: Assignment07
 # Desc: This assignment demonstrates using data classes
-# with structured error handling
+# with structured error handling. The assignment is built upon a starter script provided
+# by RRoot, and retains much of that original code.
 # Change Log: (Who, When, What)
-#   RRoot,1/1/2030,Created Script
-#   <Your Name Here>,<Date>,<Activity>
+#   Jason Coult, 12/22/2024, Created Script
+#   Jason Coult, 12/23/2024, Modified Script
 # ------------------------------------------------------------------------------------------ #
 import json
 
@@ -21,8 +22,8 @@ MENU: str = '''
 FILE_NAME: str = "Enrollments.json"
 
 # Define the Data Variables
-students: list = []  # a table of student data
-menu_choice: str  # Hold the choice made by the user.
+students: list = []  # Table of student data
+menu_choice: str  # Hold the choice made by the user
 
 
 # TODO Create a Person Class
@@ -38,8 +39,59 @@ menu_choice: str  # Hold the choice made by the user.
 # TODO add the setter for course_name (Done)
 # TODO Override the __str__() method to return the Student data (Done)
 
+class Person:
+    """
+    Class defining a person.
+
+    Properties:
+        - first_name (str): The person's first name.
+        - last_name (str): The person's last name.
+
+    Changelog:
+        Jason Coult, 12/22/2024, Created script
+        Jason Coult, 12/23/2024, Modified script
+    """
+
+    # Person constructor
+    def __init__(self, first_name: str = '', last_name: str = ''):
+        self.first_name = first_name  # First name
+        self.last_name = last_name  # Last name
+
+    # Person first name getter and setter
+    @property  # Getter
+    def first_name(self):
+        return self.__first_name.title()  # Format first name to title case
+
+    @first_name.setter  # Setter
+    def first_name(self, value: str):
+        if value.isalpha():  # Allow only letters in text
+            self.__first_name = value
+        elif len(value) == 0:  # Ensure first name is not empty
+            raise ValueError("The first name should not be blank!")
+        else:  # Other error
+            raise ValueError("The first name should only use letters!")
+
+    # Person last name getter and setter
+    @property  # Getter
+    def last_name(self):
+        return self.__last_name.title()  # Format in title case
+
+    @last_name.setter  # Setter
+    def last_name(self, value: str):
+        if value.isalpha():  # Allow only letters in text
+            self.__last_name = value
+        elif len(value) == 0:  # Ensure last name is not empty
+            raise ValueError("The last name should not be blank!")
+        else:  # Other error
+            raise ValueError("The last name should only use letters!")
 
 
+#REMOVE LATER
+x = Person(first_name='Jason',last_name='Coult')
+print(x.first_name)
+print(x.last_name)
+print(x)
+y = Person(first_name='')
 # Processing --------------------------------------- #
 class FileProcessor:
     """
