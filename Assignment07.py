@@ -26,12 +26,6 @@ students: list = []  # Table of student data
 menu_choice: str  # Hold the choice made by the user
 
 
-# TODO Create a Person Class
-# TODO Add first_name and last_name properties to the constructor (Done)
-# TODO Create a getter and setter for the first_name property (Done)
-# TODO Create a getter and setter for the last_name property (Done)
-# TODO Override the __str__() method to return Person data (Done)
-
 # TODO Create a Student class the inherits from the Person class (Done)
 # TODO call to the Person constructor and pass it the first_name and last_name data (Done)
 # TODO add a assignment to the course_name property using the course_name parameter (Done)
@@ -64,10 +58,8 @@ class Person:
 
     @first_name.setter  # Setter
     def first_name(self, value: str):
-        if value.isalpha():  # Allow only letters in text
+        if value.isalpha() or value == "":  # Allow only letters in text
             self.__first_name = value
-        elif len(value) == 0:  # Ensure first name is not empty
-            raise ValueError("The first name should not be blank!")
         else:  # Other error
             raise ValueError("The first name should only use letters!")
 
@@ -78,20 +70,20 @@ class Person:
 
     @last_name.setter  # Setter
     def last_name(self, value: str):
-        if value.isalpha():  # Allow only letters in text
+        if value.isalpha() or value == "":  # Allow only letters in text
             self.__last_name = value
-        elif len(value) == 0:  # Ensure last name is not empty
-            raise ValueError("The last name should not be blank!")
         else:  # Other error
             raise ValueError("The last name should only use letters!")
 
+    def __str__(self):  # Override default method to show info about person
+        return f'{self.first_name}, {self.last_name}'  # Fstring for output
+
 
 #REMOVE LATER
-x = Person(first_name='Jason',last_name='Coult')
+x = Person(first_name='Jason')
 print(x.first_name)
-print(x.last_name)
 print(x)
-y = Person(first_name='')
+
 # Processing --------------------------------------- #
 class FileProcessor:
     """
