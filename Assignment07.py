@@ -4,8 +4,8 @@
 # with structured error handling. The assignment is built upon a starter script provided
 # by RRoot, and retains much of that original code.
 # Change Log: (Who, When, What)
-#   Jason Coult, 12/22/2024, Created Script
-#   Jason Coult, 12/23/2024, Modified Script
+#   Jason Coult, 12/22/2024, Created script based on RRoot starter code
+#   Jason Coult, 12/23/2024, Modified script to meet requirements of assignment
 # ------------------------------------------------------------------------------------------ #
 import json
 
@@ -24,12 +24,6 @@ FILE_NAME: str = "Enrollments.json"
 # Define the Data Variables
 students: list = []  # Table of student data
 menu_choice: str  # Hold the choice made by the user
-
-
-# TODO add a assignment to the course_name property using the course_name parameter (Done)
-# TODO add the getter for course_name (Done)
-# TODO add the setter for course_name (Done)
-# TODO Override the __str__() method to return the Student data (Done)
 
 class Person:
     """
@@ -122,32 +116,42 @@ class FileProcessor:
     A collection of processing layer functions that work with Json files
 
     ChangeLog: (Who, When, What)
-    RRoot,1.1.2030,Created Class
+    Jason Coult, 12/23/2024, Created class based on RRoot's starter code
+    Jason Coult, 12/23/2024, Modified class to be compatible with objects
     """
     @staticmethod
     def read_data_from_file(file_name: str, student_data: list):
-        """ This function reads data from a json file and loads it into a list of dictionary rows
+        """ This function reads data from a json file and loads it into a list of student objects
 
         ChangeLog: (Who, When, What)
-        RRoot,1.1.2030,Created function
+        Jason Coult, 12/23/2024, Created function based on RRoot's starter code
+        Jason Coult, 12/23/2024, Modified function to work with objects
 
-        :param file_name: string data with name of file to read from
-        :param student_data: list of dictionary rows to be filled with file data
+        :param file_name: String data with name of file to read from
+        :param student_data: List of objects, created from file rows, to be filled with file data
 
         :return: list
         """
 
         try:
-            file = open(file_name, "r")
-            student_data = json.load(file)
+            file = open(file_name, "r")  # Open file in read mode
+            list_of_dictionary_data = json.load(file)  # Assign to list of dictionaries
+            for individual_student in list_of_dictionary_data:  # Loop through the rows in dictionary list
+                individual_student_object: Student = Student(  # Pull out using keys and assign to object properties
+                    first_name = individual_student["FirstName"],
+                    last_name = individual_student["LastName"],
+                    course_name = individual_student["CourseName"]
+                )
+                student_data.append(individual_student_object)  # Add on to list of student objects
+
             file.close()
         except Exception as e:
             IO.output_error_messages(message="Error: There was a problem with reading the file.", error=e)
 
         finally:
             if file.closed == False:
-                file.close()
-        return student_data
+                file.close()  # Close just in case try block failed and file remains open
+        return student_data  # Return the list of student objects
 
     @staticmethod
     def write_data_to_file(file_name: str, student_data: list):
