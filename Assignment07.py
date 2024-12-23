@@ -26,8 +26,6 @@ students: list = []  # Table of student data
 menu_choice: str  # Hold the choice made by the user
 
 
-# TODO Create a Student class the inherits from the Person class (Done)
-# TODO call to the Person constructor and pass it the first_name and last_name data (Done)
 # TODO add a assignment to the course_name property using the course_name parameter (Done)
 # TODO add the getter for course_name (Done)
 # TODO add the setter for course_name (Done)
@@ -42,8 +40,8 @@ class Person:
         - last_name (str): The person's last name.
 
     Changelog:
-        Jason Coult, 12/22/2024, Created script
-        Jason Coult, 12/23/2024, Modified script
+        Jason Coult, 12/22/2024, Created class
+        Jason Coult, 12/23/2024, Modified properties
     """
 
     # Person constructor
@@ -75,14 +73,48 @@ class Person:
         else:  # Other error
             raise ValueError("The last name should only use letters!")
 
-    def __str__(self):  # Override default method to show info about person
-        return f'{self.first_name}, {self.last_name}'  # Fstring for output
+    def __str__(self):  # Override default str method to show info about person
+        return f'{self.first_name} {self.last_name}'  # Fstring for output
 
+class Student(Person):
+    """
+    Class defining a student, inherited from Person.
+
+    Properties:
+        - first_name (str): Inherits person's first name.
+        - last_name (str): Inherits person's last name.
+        - course_name (str): Student's course name. 
+
+    Changelog:
+        Jason Coult, 12/23/2024, Created class
+    """
+
+    # Student constructor
+    def __init__(self, first_name: str = '', last_name: str = '', course_name: str = ''):
+        super().__init__(first_name = first_name, last_name = last_name)  # Parent class (person) constructor
+        self.course_name = course_name  # Course name
+
+    # Course name getter and setter
+    @property  # Getter
+    def course_name(self):
+        return self.__course_name.title()  # Format course name title case too
+
+    @course_name.setter  # Setter
+    def course_name(self, value: str):
+        self.__course_name = value  # No error check b/c course name can be alphanumeric
+
+    def __str__(self):  # Override with custom string function
+        return f'{self.first_name} {self.last_name}, {self.course_name}'
 
 #REMOVE LATER
-x = Person(first_name='Jason')
+x = Person(first_name='Jason', last_name='Coult')
 print(x.first_name)
 print(x)
+x.first_name = 'John'
+print(x)
+y = Student(first_name='jeff', last_name='jones', course_name='math101')
+print(y)
+
 
 # Processing --------------------------------------- #
 class FileProcessor:
