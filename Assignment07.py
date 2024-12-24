@@ -1,13 +1,13 @@
 # ------------------------------------------------------------------------------------------ #
 # Title: Assignment07
-# Desc: This assignment demonstrates using data classes
-# with structured error handling. The assignment is built upon a starter script provided
-# by RRoot, and retains much of that original code.
+# Desc: This assignment demonstrates using data classes with structured error handling.
+# The assignment is built upon a starter script provided by RRoot.
+#
 # Change Log: (Who, When, What)
 #   Jason Coult, 12/22/2024, Created script based on RRoot starter code
 #   Jason Coult, 12/23/2024, Modified script to meet requirements of assignment
 # ------------------------------------------------------------------------------------------ #
-import json
+import json  # For working with json files
 
 # Define the Data Constants
 MENU: str = '''
@@ -102,15 +102,6 @@ class Student(Person):
     def __str__(self):  # Override with custom string function
         return f'{self.first_name} {self.last_name}, {self.course_name}'
 
-#REMOVE LATER
-x = Person(first_name='Jason', last_name='Coult')
-print(x.first_name)
-print(x)
-x.first_name = 'John'
-print(x)
-y = Student(first_name='jeff', last_name='jones', course_name='math101')
-print(y)
-
 
 # Processing --------------------------------------- #
 class FileProcessor:
@@ -157,22 +148,30 @@ class FileProcessor:
 
     @staticmethod
     def write_data_to_file(file_name: str, student_data: list):
-        """ This function writes data to a json file with data from a list of dictionary rows
+        """ This function writes data to a json file
 
         ChangeLog: (Who, When, What)
         Jason Coult, 12/23/2024, Created based on RRoot's starter code
+        Jason Coult, 12/23/2024, Modified to work with student objects
 
         :param file_name: string data with name of file to write to
-        :param student_data: list of dictionary rows to be writen to the file
+        :param student_data: list of student objects to be writen to the file
 
         :return: None
         """
 
         try:
-            file = open(file_name, "w")
-            json.dump(student_data, file)
+            file = open(file_name, "w")  # Open file in write mode
+            list_of_dictionary_data: list = []  # Empty list to hold student rows converted from student objects
+            for individual_student in student_data:  # Loop through each student object
+                student_row: dict = {  # Create dictionary entry with object property values as key-value pairs
+                    "FirstName": individual_student.first_name,
+                    "LastName": individual_student.last_name,
+                    "CourseName": individual_student.course_name}
+                list_of_dictionary_data.append(student_row)  # Append the dictionary row to the list
+            json.dump(list_of_dictionary_data, file, indent=4)  # Save data & format it nicely within the file
             file.close()
-            IO.output_student_and_course_names(student_data=student_data)
+            IO.output_student_and_course_names(student_data=student_data)  # Display the list for reference
         except Exception as e:
             message = "Error: There was a problem with writing to the file.\n"
             message += "Please check that the file is not open by another program."
@@ -293,7 +292,7 @@ class IO:
 
 # Start of main body
 
-# When the program starts, read the file data into a list of lists (table)
+# When the program starts, read the file data into a list of student objects
 # Extract the data from the file
 students = FileProcessor.read_data_from_file(file_name=FILE_NAME, student_data=students)
 
@@ -303,6 +302,7 @@ while True:
     # Present the menu of choices
     IO.output_menu(menu=MENU)
 
+    # Get the user's input
     menu_choice = IO.input_menu_choice()
 
     # Input user data

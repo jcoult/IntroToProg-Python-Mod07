@@ -1,1 +1,22 @@
-[{"FirstName": "Bob", "LastName": "Smith", "CourseName": "Python 100"}, {"FirstName": "Sue", "LastName": "Jones", "CourseName": "Python 100"}, {"FirstName": "John", "LastName": "Smith", "CourseName": "Cal 101"}]
+[
+    {
+        "FirstName": "Bob",
+        "LastName": "Smith",
+        "CourseName": "Python 100"
+    },
+    {
+        "FirstName": "Sue",
+        "LastName": "Jones",
+        "CourseName": "Python 100"
+    },
+    {
+        "FirstName": "Joe",
+        "LastName": "Shmo",
+        "CourseName": "Py201"
+    },
+    {
+        "FirstName": "Jane",
+        "LastName": "Smithers",
+        "CourseName": "Math 5"
+    }
+]
