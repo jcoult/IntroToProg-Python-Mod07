@@ -248,17 +248,16 @@ class IO:
 
         ChangeLog:
         Jason Coult, 12/23/2024, Created function based on RRoot's starter code
-        Jason Coul
+        Jason Coult, 12/23/2024, Modified function to use student objects
 
-        :param student_data: list of dictionary rows to be displayed
+        :param student_data: list of student objects to be displayed
 
         :return: None
         """
 
         print("-" * 50)
-        for student in student_data:
-            print(f'Student {student["FirstName"]} '
-                  f'{student["LastName"]} is enrolled in {student["CourseName"]}')
+        for student in student_data:  # Loop through each object in list and print property values
+            print(f'Student {student.first_name} {student.last_name} is enrolled in {student.course_name}')
         print("-" * 50)
 
     @staticmethod
