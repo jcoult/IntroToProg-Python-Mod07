@@ -73,7 +73,7 @@ class Person:
 
 class Student(Person):
     """
-    Class defining a student, inherited from Person.
+    Class defining a student, inherited from Person class.
 
     Properties:
         - first_name (str): Inherits person's first name.
@@ -87,16 +87,16 @@ class Student(Person):
     # Student constructor
     def __init__(self, first_name: str = '', last_name: str = '', course_name: str = ''):
         super().__init__(first_name = first_name, last_name = last_name)  # Parent class (person) constructor
-        self.course_name = course_name  # Course name
+        self.course_name = course_name  # Course name added in the student class
 
     # Course name getter and setter
     @property  # Getter
     def course_name(self):
-        return self.__course_name.title()  # Format course name title case too
+        return self.__course_name.title()  # Format course name to title case too
 
     @course_name.setter  # Setter
     def course_name(self, value: str):
-        self.__course_name = value  # No error check b/c course name can be alphanumeric
+        self.__course_name = value  # No error check because course name can contain numbers
 
     # Student string function
     def __str__(self):  # Override with custom string function
@@ -108,15 +108,16 @@ class FileProcessor:
     """
     A collection of processing layer functions that work with Json files
 
-    ChangeLog: (Who, When, What)
+    ChangeLog:
     Jason Coult, 12/23/2024, Created class based on RRoot's starter code
     Jason Coult, 12/23/2024, Modified class to be compatible with objects
     """
+
     @staticmethod
     def read_data_from_file(file_name: str, student_data: list):
         """ This function reads data from a json file and loads it into a list of student objects
 
-        ChangeLog: (Who, When, What)
+        ChangeLog:
         Jason Coult, 12/23/2024, Created function based on RRoot's starter code
         Jason Coult, 12/23/2024, Modified function to work with objects
 
@@ -125,7 +126,6 @@ class FileProcessor:
 
         :return: list
         """
-
         try:
             file = open(file_name, "r")  # Open file in read mode
             list_of_dictionary_data = json.load(file)  # Assign to list of dictionaries
@@ -144,13 +144,14 @@ class FileProcessor:
         finally:
             if file.closed == False:
                 file.close()  # Close just in case try block failed and file remains open
+
         return student_data  # Return the list of student objects
 
     @staticmethod
     def write_data_to_file(file_name: str, student_data: list):
         """ This function writes data to a json file
 
-        ChangeLog: (Who, When, What)
+        ChangeLog:
         Jason Coult, 12/23/2024, Created based on RRoot's starter code
         Jason Coult, 12/23/2024, Modified to work with student objects
 
@@ -159,7 +160,6 @@ class FileProcessor:
 
         :return: None
         """
-
         try:
             file = open(file_name, "w")  # Open file in write mode
             list_of_dictionary_data: list = []  # Empty list to hold student rows converted from student objects
@@ -227,6 +227,7 @@ class IO:
         ChangeLog:
         Jason Coult, 12/23/2024, Created function based on RRoot's starter code
         Jason Coult, 12/23/2024, Update with more detailed input error
+
         :return: string with the users choice
         """
         choice = ""  # To check if nothing has been entered
@@ -253,7 +254,6 @@ class IO:
 
         :return: None
         """
-
         print("-" * 50)
         for student in student_data:  # Loop through each object in list and print property values
             print(f'Student {student.first_name} {student.last_name} is enrolled in {student.course_name}')
@@ -267,7 +267,7 @@ class IO:
         Jason Coult, 12/23/2024, Created function based on RRoot's starter code
         Jason Coult, 12/23/2024, Modified for use with student objects
 
-        :param student_data: list of dictionary rows to be filled with input data
+        :param student_data: list of student objects to be filled with input data
 
         :return: list
         """
