@@ -273,18 +273,17 @@ class IO:
         """
 
         try:
-            student_first_name = input("Enter the student's first name: ")
-            student_last_name = input("Enter the student's last name: ")
-            course_name = input("Please enter the name of the course: ")
-            student_object = Student(  # Assign the inputted entries to a student object's properties
-                first_name = student_first_name,
-                last_name = student_last_name,
-                course_name = course_name)
+            # Create student object one property at a time using sequential user prompts. Each property is assigned with
+            # each prompt in order to trigger an immediate error to user if a bad value is entered.
+            student_object = Student(first_name = input("Enter the student's first name: "))  # Student + first name
+            student_object.last_name = input("Enter the student's last name: ")  # Add last name is first name valid
+            student_object.course_name = input("Please enter the name of the course: ")  # Add course if last name valid
             student_data.append(student_object)  # Append student object
             print()
-            print(f"You have registered {student_first_name} {student_last_name} for {course_name}.")
+            print(f'You have registered '
+                  f'{student_object.first_name} {student_object.last_name} for {student_object.course_name}.')
         except ValueError as e:
-            IO.output_error_messages(message="One of the values was the correct type of data!", error=e)
+            IO.output_error_messages(message="One of the values was not the correct type of data!", error=e)
         except Exception as e:
             IO.output_error_messages(message="Error: There was a problem with your entered data.", error=e)
         return student_data

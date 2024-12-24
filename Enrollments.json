@@ -18,5 +18,10 @@
         "FirstName": "Jane",
         "LastName": "Smithers",
         "CourseName": "Math 5"
+    },
+    {
+        "FirstName": "Jay",
+        "LastName": "Colt",
+        "CourseName": "Math1"
     }
 ]
