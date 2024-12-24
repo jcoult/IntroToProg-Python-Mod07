@@ -22,8 +22,8 @@ MENU: str = '''
 FILE_NAME: str = "Enrollments.json"
 
 # Define the Data Variables
-students: list = []  # Table of student data
-menu_choice: str  # Hold the choice made by the user
+students: list = []  # List of student objects
+menu_choice: str  # Menu input choice from user
 
 class Person:
     """
@@ -67,6 +67,7 @@ class Person:
         else:  # Other error
             raise ValueError("The last name should only use letters!")
 
+    # Person string function
     def __str__(self):  # Override default str method to show info about person
         return f'{self.first_name} {self.last_name}'  # Fstring for output
 
@@ -97,6 +98,7 @@ class Student(Person):
     def course_name(self, value: str):
         self.__course_name = value  # No error check b/c course name can be alphanumeric
 
+    # Student string function
     def __str__(self):  # Override with custom string function
         return f'{self.first_name} {self.last_name}, {self.course_name}'
 
@@ -158,7 +160,7 @@ class FileProcessor:
         """ This function writes data to a json file with data from a list of dictionary rows
 
         ChangeLog: (Who, When, What)
-        RRoot,1.1.2030,Created function
+        Jason Coult, 12/23/2024, Created based on RRoot's starter code
 
         :param file_name: string data with name of file to write to
         :param student_data: list of dictionary rows to be writen to the file
@@ -185,19 +187,16 @@ class IO:
     """
     A collection of presentation layer functions that manage user input and output
 
-    ChangeLog: (Who, When, What)
-    RRoot,1.1.2030,Created Class
-    RRoot,1.2.2030,Added menu output and input functions
-    RRoot,1.3.2030,Added a function to display the data
-    RRoot,1.4.2030,Added a function to display custom error messages
+    ChangeLog:
+    Jason Coult, 12/23/2024, Created based on RRoot's starter code
     """
 
     @staticmethod
     def output_error_messages(message: str, error: Exception = None):
-        """ This function displays the a custom error messages to the user
+        """ This function displays custom error messages to the user
 
-        ChangeLog: (Who, When, What)
-        RRoot,1.3.2030,Created function
+        ChangeLog:
+        Jason Coult, 12/23/2024, Created based on RRoot's starter code
 
         :param message: string with message data to display
         :param error: Exception object with technical message to display
@@ -213,9 +212,8 @@ class IO:
     def output_menu(menu: str):
         """ This function displays the menu of choices to the user
 
-        ChangeLog: (Who, When, What)
-        RRoot,1.1.2030,Created function
-
+        ChangeLog:
+        Jason Coult, 12/23/2024, Created function based on RRoot's starter code
 
         :return: None
         """
@@ -227,18 +225,20 @@ class IO:
     def input_menu_choice():
         """ This function gets a menu choice from the user
 
-        ChangeLog: (Who, When, What)
-        RRoot,1.1.2030,Created function
-
+        ChangeLog:
+        Jason Coult, 12/23/2024, Created function based on RRoot's starter code
+        Jason Coult, 12/23/2024, Update with more detailed input error
         :return: string with the users choice
         """
-        choice = "0"
+        choice = ""  # To check if nothing has been entered
         try:
-            choice = input("Enter your menu choice number: ")
-            if choice not in ("1","2","3","4"):  # Note these are strings
-                raise Exception("Please, choose only 1, 2, 3, or 4")
+            choice = input("Enter your menu choice number: ")  # User input prompt
+            if len(choice) == 0:  # Error case for no input
+                raise Exception("No choice made. Please enter a choice!")
+            elif choice not in ("1", "2", "3", "4"):  # Error case for invalid selection
+                raise Exception("Please only chose 1,2,3,4")
         except Exception as e:
-            IO.output_error_messages(e.__str__())  # Not passing e to avoid the technical message
+            IO.output_error_messages(e.__str__(), e)  # Display the particular error message
 
         return choice
 
@@ -246,8 +246,9 @@ class IO:
     def output_student_and_course_names(student_data: list):
         """ This function displays the student and course names to the user
 
-        ChangeLog: (Who, When, What)
-        RRoot,1.1.2030,Created function
+        ChangeLog:
+        Jason Coult, 12/23/2024, Created function based on RRoot's starter code
+        Jason Coul
 
         :param student_data: list of dictionary rows to be displayed
 
@@ -264,8 +265,9 @@ class IO:
     def input_student_data(student_data: list):
         """ This function gets the student's first name and last name, with a course name from the user
 
-        ChangeLog: (Who, When, What)
-        RRoot,1.1.2030,Created function
+        ChangeLog:
+        Jason Coult, 12/23/2024, Created function based on RRoot's starter code
+        Jason Coult, 12/23/2024, Modified for use with student objects
 
         :param student_data: list of dictionary rows to be filled with input data
 
@@ -274,16 +276,13 @@ class IO:
 
         try:
             student_first_name = input("Enter the student's first name: ")
-            if not student_first_name.isalpha():
-                raise ValueError("The last name should not contain numbers.")
             student_last_name = input("Enter the student's last name: ")
-            if not student_last_name.isalpha():
-                raise ValueError("The last name should not contain numbers.")
             course_name = input("Please enter the name of the course: ")
-            student = {"FirstName": student_first_name,
-                            "LastName": student_last_name,
-                            "CourseName": course_name}
-            student_data.append(student)
+            student_object = Student(  # Assign the inputted entries to a student object's properties
+                first_name = student_first_name,
+                last_name = student_last_name,
+                course_name = course_name)
+            student_data.append(student_object)  # Append student object
             print()
             print(f"You have registered {student_first_name} {student_last_name} for {course_name}.")
         except ValueError as e:
@@ -300,7 +299,7 @@ class IO:
 students = FileProcessor.read_data_from_file(file_name=FILE_NAME, student_data=students)
 
 # Present and Process the data
-while (True):
+while True:
 
     # Present the menu of choices
     IO.output_menu(menu=MENU)
@@ -308,7 +307,7 @@ while (True):
     menu_choice = IO.input_menu_choice()
 
     # Input user data
-    if menu_choice == "1":  # This will not work if it is an integer!
+    if menu_choice == "1":
         students = IO.input_student_data(student_data=students)
         continue
 
